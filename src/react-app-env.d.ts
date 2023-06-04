@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-05-28 12:41:10
- * @LastEditTime: 2023-05-28 13:01:30
+ * @LastEditTime: 2023-06-04 00:20:31
  * @LastEditors: Lee
  */
 /// <reference types="node" />
@@ -76,4 +76,6 @@ declare module '*.module.sass' {
   export default classes;
 }
 
-declare module 'three';
+declare module '@types/three';
+
+declare module 'SceneUtils';
