@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-04 16:57:58
- * @LastEditTime: 2023-06-22 16:46:35
+ * @LastEditTime: 2023-06-23 00:50:16
  * @LastEditors: Lee
  */
 import React from 'react'
@@ -27,7 +27,7 @@ const RouterConfig = [
   },
   {
     path: '/',
-    element: <Navigate to='/Login' />
+    element: <Navigate to='/home' />
   }
 ]
 

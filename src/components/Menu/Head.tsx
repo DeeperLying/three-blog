@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-18 11:45:46
- * @LastEditTime: 2023-06-22 14:02:54
+ * @LastEditTime: 2023-06-23 00:50:40
  * @LastEditors: Lee
  */
 import Cookies from 'js-cookie'
@@ -30,8 +30,6 @@ const Head = () => {
         <div className={styles.head}>
           <div>已登陆</div>
           <div>用户名:{userInfo?.username}</div>
-          <Typography.Text>买家账号：mfvudv4313@sandbox.com</Typography.Text>
-          <Typography.Text>登录密码：111111</Typography.Text>
         </div>
       ) : (
         <>
