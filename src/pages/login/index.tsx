@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-11 18:09:47
- * @LastEditTime: 2023-06-22 16:01:35
+ * @LastEditTime: 2023-06-22 17:22:33
  * @LastEditors: Lee
  */
 
@@ -40,21 +40,27 @@ export default function Login() {
       Cookies.set('token', token)
       Cookies.set('userInfo', JSON.stringify(data))
       location.href = location.origin
-    } else {
-      Toast.fail('用户名或者密码不对')
     }
   }
 
   const onFinish = (values: any) => {
-    serviceLogin({ ...values }).then(({ token, data, code }: any) => {
-      handleReqeustUserInfoSuccess(token, data, code)
-    })
+    serviceLogin({ ...values })
+      .then(({ token, data, code }: any) => {
+        handleReqeustUserInfoSuccess(token, data, code)
+      })
+      .catch(() => {
+        Toast.fail('用户名或者密码不对')
+      })
   }
 
   const onPhoneFinish = (values: any) => {
-    serviceLoginPhone({ ...values }).then(async ({ token, data, code }: any) => {
-      handleReqeustUserInfoSuccess(token, data, code)
-    })
+    serviceLoginPhone({ ...values })
+      .then(async ({ token, data, code }: any) => {
+        handleReqeustUserInfoSuccess(token, data, code)
+      })
+      .catch(() => {
+        Toast.fail('用户名或者密码不对')
+      })
   }
 
   const handleCommonFooter = () => {

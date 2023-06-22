@@ -1,12 +1,12 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 12:52:05
- * @LastEditTime: 2023-06-22 16:40:48
+ * @LastEditTime: 2023-06-22 17:20:30
  * @LastEditors: Lee
  */
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import qs from 'qs'
+// import qs from 'qs'
 
 const serverConfig = {
   //baseURL: 'http://shop.xiaomaibu.pro/api/',
@@ -32,12 +32,12 @@ serviceAxios.interceptors.request.use(
     // 设置请求头
     if (!config.headers['content-type']) {
       // 如果没有设置请求头
-      if (config.method === 'post') {
-        config.headers['content-type'] = 'application/x-www-form-urlencoded' // post 请求
-        config.data = qs.stringify(config.data) // 序列化,比如表单数据
-      } else {
-        config.headers['content-type'] = 'application/json' // 默认类型
-      }
+      // if (config.method === 'post') {
+      //   config.headers['content-type'] = 'application/x-www-form-urlencoded' // post 请求
+      //   config.data = qs.stringify(config.data) // 序列化,比如表单数据
+      // } else {
+      // }
+      config.headers['content-type'] = 'application/json' // 默认类型
     }
     console.log('请求配置', config)
     return config
@@ -106,7 +106,7 @@ serviceAxios.interceptors.response.use(
           break
       }
     }
-    return Promise.reject(message)
+    return Promise.reject({ response: error, message })
   }
 )
 export default serviceAxios
