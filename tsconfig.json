@@ -16,9 +16,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     // 解析非绝对模块名称
-    "baseUrl": "./"
+    "baseUrl": "./",
     // 路径别名
-    // "paths": { "pages/*": ["src/pages/*"] }
+    "paths": { "pages/*": ["src/pages/*"] }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.js"],
   "exclude": ["node_modules"]

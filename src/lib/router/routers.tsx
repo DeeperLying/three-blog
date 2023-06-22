@@ -1,16 +1,16 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-04 16:57:58
- * @LastEditTime: 2023-06-22 16:37:27
+ * @LastEditTime: 2023-06-22 16:46:35
  * @LastEditors: Lee
  */
 import React from 'react'
 import { Navigate } from 'react-router'
 
 // import Home from 'pages/home/index'
-import Login from 'src/pages/login'
-import Register from 'src/pages/register'
-import Home from 'src/pages/home'
+import Login from 'pages/login'
+import Register from 'pages/register'
+import Home from 'pages/home'
 
 const RouterConfig = [
   {
