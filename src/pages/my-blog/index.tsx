@@ -1,17 +1,16 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:53:51
- * @LastEditTime: 2023-06-23 19:55:48
+ * @LastEditTime: 2023-06-24 00:55:11
  * @LastEditors: Lee
  */
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const MyBlog = () => {
-  const navigate = useNavigate()
   return (
     <>
-      <div onClick={() => navigate('/create')}>发布文章</div>
+      <Link to={'/create'}>去发表文章</Link>
       <div>功能完善中....</div>
     </>
   )
