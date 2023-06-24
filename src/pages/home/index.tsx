@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 15:22:19
- * @LastEditTime: 2023-06-24 00:53:08
+ * @LastEditTime: 2023-06-24 16:04:47
  * @LastEditors: Lee
  */
 import React, { useEffect, useState } from 'react'
@@ -9,6 +9,7 @@ import { Card, Empty } from 'react-vant'
 import { serviceGetArticleList } from 'src/https/home'
 import styles from './index.module.scss'
 import { Link, useNavigate } from 'react-router-dom'
+import Head from 'src/components/Head'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -24,26 +25,28 @@ const Home = () => {
       })
   }, [])
   return (
-    <div>
-      {articleList.length ? (
-        articleList.map((item: any) => (
-          <Card
-            key={item.id}
-            round
-            className={styles.card}
-            onClick={() => navigate('/article/' + item.id)}
-          >
-            <Card.Header>{item.title}</Card.Header>
-            <Card.Body>{item.introduction}</Card.Body>
-          </Card>
-        ))
-      ) : (
-        <div>
-          <Empty description='还未发布文章' />
-          <Link to={'/create'}>去发表文章</Link>
-        </div>
-      )}
-    </div>
+    <>
+      <div>
+        {articleList.length ? (
+          articleList.map((item: any) => (
+            <Card
+              key={item.id}
+              round
+              className={styles.card}
+              onClick={() => navigate('/article/' + item.id)}
+            >
+              <Card.Header>{item.title}</Card.Header>
+              <Card.Body>{item.introduction}</Card.Body>
+            </Card>
+          ))
+        ) : (
+          <div>
+            <Empty description='还未发布文章' />
+            <Link to={'/create'}>去发表文章</Link>
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 
