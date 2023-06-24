@@ -73,7 +73,8 @@ const Tiptap = () => {
   }, [])
 
   const onFinish = (values: any) => {
-    values.text = vditorRef.current.getHTML()
+    console.log(vditorRef.current.getValue())
+    values.text = vditorRef.current.getValue()
     serviceSaveArticle(values)
       .then(({ code }: any) => {
         if (code === 200) {

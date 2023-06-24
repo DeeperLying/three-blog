@@ -143,3 +143,5 @@ declare module '*.module.sass' {
 }
 
 declare module 'weixin-js-sdk'
+
+declare module 'vditor/dist/method.min'
