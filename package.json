@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "dev": "dotenv -e .env.development node scripts/start.js",
+    "dev:pro": "dotenv -e .env.production node scripts/start.js",
+    "build": "dotenv -e .env.development node scripts/build.js",
+    "build:pro": "dotenv -e .env.production node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "dependencies": {
@@ -44,6 +46,7 @@
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.2.0",
     "dotenv": "^10.0.0",
+    "dotenv-cli": "^7.2.1",
     "dotenv-expand": "^5.1.0",
     "eslint": "^8.0.1",
     "eslint-config-react-app": "^7.0.1",
@@ -178,11 +181,13 @@
     "@types/node": "^20.3.1",
     "@types/react-syntax-highlighter": "^15.5.7",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.32.2"
+    "eslint-plugin-react": "^7.32.2",
+    "react-app-rewired": "^2.2.1"
   }
 }

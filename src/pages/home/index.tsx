@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 15:22:19
- * @LastEditTime: 2023-06-24 16:04:47
+ * @LastEditTime: 2023-07-01 14:39:14
  * @LastEditors: Lee
  */
 import React, { useEffect, useState } from 'react'
@@ -14,6 +14,15 @@ import Head from 'src/components/Head'
 const Home = () => {
   const navigate = useNavigate()
   const [articleList, setArticleList] = useState<[]>([])
+
+  useEffect(() => {
+    console.log(
+      process.env.REACT_APP_BaseUrl,
+      'process.env.NODE_ENV',
+      process.env.REACT_APP_VERSION,
+      process.env.REACT_APP_ENV
+    )
+  }, [])
 
   useEffect(() => {
     serviceGetArticleList({ pageSize: 20, currentPage: 0 })

@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-11 18:09:47
- * @LastEditTime: 2023-06-22 17:22:33
+ * @LastEditTime: 2023-07-01 13:10:00
  * @LastEditors: Lee
  */
 
@@ -99,7 +99,7 @@ export default function Login() {
               name='password'
               label='密码'
             >
-              <Input placeholder='请输入密码' />
+              <Input placeholder='请输入密码' type='password' />
             </Form.Item>
           </Form>
         </Tabs.TabPane>
@@ -118,7 +118,7 @@ export default function Login() {
               name='password'
               label='密码'
             >
-              <Input placeholder='请输入密码' />
+              <Input placeholder='请输入密码' type='password' />
             </Form.Item>
           </Form>
         </Tabs.TabPane>
