@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 13:33:48
- * @LastEditTime: 2023-06-22 13:39:06
+ * @LastEditTime: 2023-07-01 17:00:37
  * @LastEditors: Lee
  */
 
@@ -16,4 +16,13 @@ const getCookies = (value: string) => {
   }
 }
 
-export { getCookies }
+const getUserInfo = () => {
+  const data = Cookies.get('userInfo')
+  if (data) {
+    return JSON.parse(data)
+  } else {
+    return undefined
+  }
+}
+
+export { getCookies, getUserInfo }

@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-03 20:59:01
- * @LastEditTime: 2023-06-22 16:03:28
+ * @LastEditTime: 2023-07-02 00:20:01
  * @LastEditors: Lee
  */
 import React, { ReactElement } from 'react'
@@ -10,6 +10,10 @@ import { useRoutes } from 'react-router'
 
 import Layout from 'src/components/Layout/Layout'
 
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 import './App.css'
 
 import RouterConfig from 'src/lib/router/routers'

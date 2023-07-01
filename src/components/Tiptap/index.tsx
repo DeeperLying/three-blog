@@ -4,9 +4,11 @@ import Vditor from 'vditor'
 import { Button, Form, Input, Toast } from 'react-vant'
 import { serviceSaveArticle } from 'src/https/create'
 import { useNavigate } from 'react-router-dom'
+import { getUserInfo } from 'src/lib/cookie/cookie'
 
 const Tiptap = () => {
   const navigate = useNavigate()
+  const userInfo = getUserInfo()
   const { TextArea } = Input
   const [form] = Form.useForm()
   const vditorRef = useRef<any>(null)
@@ -68,13 +70,22 @@ const Tiptap = () => {
         pin: false
       },
       mode: 'sv',
-      height: '70vh'
+      height: '70vh',
+      cache: {
+        enable: false
+      }
     }))
   }, [])
 
   const onFinish = (values: any) => {
     console.log(vditorRef.current.getValue())
+    console.log(vditorRef.current.getHTML())
+    console.log(userInfo)
     values.text = vditorRef.current.getValue()
+    values.text_html = vditorRef.current.getHTML()
+    values.userId = userInfo.id
+    values.author = userInfo.username
+
     serviceSaveArticle(values)
       .then(({ code }: any) => {
         if (code === 200) {
@@ -94,14 +105,6 @@ const Tiptap = () => {
           label='标题'
           name='title'
           rules={[{ required: true, message: 'Please input your 标题!' }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label='作者'
-          name='author'
-          rules={[{ required: true, message: 'Please input your 作者!' }]}
         >
           <Input />
         </Form.Item>
