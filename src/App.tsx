@@ -1,14 +1,15 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-03 20:59:01
- * @LastEditTime: 2023-07-02 00:20:01
+ * @LastEditTime: 2023-07-02 23:02:36
  * @LastEditors: Lee
  */
-import React, { ReactElement } from 'react'
+import React, { ReactElement, Suspense } from 'react'
 import { useRoutes } from 'react-router'
 // import wx from 'weixin-js-sdk'
 
 import Layout from 'src/components/Layout/Layout'
+import Loading from './components/Loading/Loading'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -36,7 +37,9 @@ function App(): ReactElement {
   const element = useRoutes(RouterConfig)
   return (
     <div className='App'>
-      <Layout>{element}</Layout>
+      <Suspense fallback={<Loading />}>
+        <Layout>{element}</Layout>
+      </Suspense>
     </div>
   )
 }
