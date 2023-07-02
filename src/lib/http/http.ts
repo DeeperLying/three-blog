@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 12:52:05
- * @LastEditTime: 2023-07-01 16:35:21
+ * @LastEditTime: 2023-07-02 10:30:14
  * @LastEditors: Lee
  */
 import axios from 'axios'
@@ -31,14 +31,14 @@ serviceAxios.interceptors.request.use(
       config.headers['Authentication'] = Cookies.get('token') // 请求头携带 token
     }
     // 设置请求头
-    if (!config.headers['content-type']) {
+    if (!config.headers['Content-Type']) {
       // 如果没有设置请求头
       // if (config.method === 'post') {
       //   config.headers['content-type'] = 'application/x-www-form-urlencoded' // post 请求
       //   config.data = qs.stringify(config.data) // 序列化,比如表单数据
       // } else {
       // }
-      config.headers['content-type'] = 'application/json' // 默认类型
+      config.headers['Content-Type'] = 'application/json' // 默认类型
     }
     return config
   },

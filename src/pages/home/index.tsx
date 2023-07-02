@@ -1,15 +1,23 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 15:22:19
- * @LastEditTime: 2023-07-01 16:34:40
+ * @LastEditTime: 2023-07-02 12:00:28
  * @LastEditors: Lee
  */
 import React, { useEffect, useState } from 'react'
-import { Card, Empty } from 'react-vant'
+import { Empty } from 'react-vant'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import { serviceGetArticleList } from 'src/https/home'
 import styles from './index.module.scss'
 import { Link, useNavigate } from 'react-router-dom'
-import Head from 'src/components/Head'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import moment from 'moment'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -26,23 +34,45 @@ const Home = () => {
   }, [])
   return (
     <>
-      <div>
+      <div className={styles.main}>
         {articleList.length ? (
           articleList.map((item: any) => (
-            <Card
-              key={item.id}
-              round
-              className={styles.card}
-              onClick={() => navigate('/article/' + item.id)}
-            >
-              <Card.Header>{item.title}</Card.Header>
-              <Card.Body>{item.introduction}</Card.Body>
-            </Card>
+            <div className={styles.main_articles} key={item.id}>
+              <Card sx={{ borderRadius: '15px' }}>
+                {item?.banner && (
+                  <CardMedia
+                    sx={{ height: 140 }}
+                    image={process.env.REACT_APP_URL + item?.banner}
+                    title='sky 博客'
+                  />
+                )}
+                <CardContent sx={{ paddingBottom: 0 }}>
+                  <Typography gutterBottom variant='h5' component='div'>
+                    {item.title}
+                  </Typography>
+                  <Typography component='p' className={styles.time}>
+                    <AccessTimeIcon sx={{ width: '1.2rem', marginRight: '0.3rem' }} />
+                    发表于：
+                    {moment(item.create_time).format('MMMM Do YYYY, h:mm:ss a')}｜ 作者：
+                    {item.author}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    {item.introduction}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ justifyContent: 'flex-end' }}>
+                  <Button size='small'>分享</Button>
+                  <Button size='small' onClick={() => navigate('/article/' + item.id)}>
+                    阅读
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
           ))
         ) : (
-          <div>
-            <Empty description='还未发布文章' />
-            <Link to={'/create'}>去发表文章</Link>
+          <div className={styles.noArticle}>
+            <EditNoteIcon sx={{ fontSize: '10rem', color: '#007FFF' }} />
+            <Link to='/create'>还没有发布文章，快去发表文章吧。</Link>
           </div>
         )}
       </div>

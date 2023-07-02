@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:37:40
- * @LastEditTime: 2023-06-24 15:31:01
+ * @LastEditTime: 2023-07-02 12:05:11
  * @LastEditors: Lee
  */
 import React, { useEffect, useRef, useState } from 'react'
@@ -13,6 +13,7 @@ import rehypeRaw from 'rehype-raw' // 解析标签，支持html语法
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter' // 代码高亮
 //高亮的主题，还有很多别的主题，可以自行选择
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import CardMedia from '@mui/material/CardMedia'
 import 'github-markdown-css'
 
 const Article = (props: any) => {
@@ -30,25 +31,18 @@ const Article = (props: any) => {
     }
   }, [params])
 
-  const markdown =
-    '## 只求极致222\n' +
-    '[ **M** ] arkdown + E [ **ditor** ] = **Mditor**  \n' +
-    '> Mditor 是一个简洁、易于集成、方便扩展、期望舒服的编写 markdown 的编辑器，仅此而已... \n' +
-    '**这是加粗的文字**\n' +
-    '*这是倾斜的文字*`\n' +
-    '***这是斜体加粗的文字***\n' +
-    '~~这是加删除线的文字~~ \n' +
-    '> aaaaaaaaa\n' +
-    '>> bbbbbbbbb\n' +
-    '>>> cccccccccc\n' +
-    '***\n' +
-    '*****\n' +
-    '`code html`'
-
   return (
     <div style={{ padding: 20 }}>
       <div>标题：{article?.title}</div>
       <div>作者：{article?.author}</div>
+
+      {article?.banner && (
+        <CardMedia
+          sx={{ height: 140 }}
+          image={process.env.REACT_APP_URL + article?.banner}
+          title='sky 博客'
+        />
+      )}
 
       <ReactMarkdown
         className='markdown-body'

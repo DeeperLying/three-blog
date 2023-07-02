@@ -1,10 +1,11 @@
 import 'vditor/dist/index.css'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Vditor from 'vditor'
-import { Button, Form, Input, Toast } from 'react-vant'
+import { Button, Form, Input, Toast, Uploader } from 'react-vant'
 import { serviceSaveArticle } from 'src/https/create'
 import { useNavigate } from 'react-router-dom'
 import { getUserInfo } from 'src/lib/cookie/cookie'
+import { serviceUpFile } from 'src/https/common'
 
 const Tiptap = () => {
   const navigate = useNavigate()
@@ -13,6 +14,7 @@ const Tiptap = () => {
   const [form] = Form.useForm()
   const vditorRef = useRef<any>(null)
   const [vd, setVd] = React.useState<Vditor>()
+  const [banner, setBanner] = useState<{ [key: string]: any }>({})
 
   React.useEffect(() => {
     const vditor = (vditorRef.current = new Vditor('vditor', {
@@ -78,13 +80,11 @@ const Tiptap = () => {
   }, [])
 
   const onFinish = (values: any) => {
-    console.log(vditorRef.current.getValue())
-    console.log(vditorRef.current.getHTML())
-    console.log(userInfo)
     values.text = vditorRef.current.getValue()
     values.text_html = vditorRef.current.getHTML()
     values.userId = userInfo.id
     values.author = userInfo.username
+    values.banner = banner?.url
 
     serviceSaveArticle(values)
       .then(({ code }: any) => {
@@ -98,21 +98,52 @@ const Tiptap = () => {
       })
   }
 
+  const beforeRead = async (file: File) => {
+    try {
+      const formData = new FormData()
+      formData.set('file', file)
+      let img: any
+      await serviceUpFile(formData)
+        .then(({ code, data }: any) => {
+          if (code == 200) {
+            console.log(data, 'data')
+            img = data
+            setBanner(data)
+          }
+        })
+        .catch((error) => console.log(error))
+      // return包含 url 的一个对象 例如: {url:'https://img.yzcdn.cn/vant/sand.jpg'}
+      return { url: 'http://localhost:8443' + img.url }
+    } catch (error) {
+      return { url: `demo_path/${file.name}` }
+    }
+  }
+
   return (
     <>
       <Form name='basic' onFinish={onFinish} autoComplete='off' form={form}>
-        <Form.Item
-          label='标题'
-          name='title'
-          rules={[{ required: true, message: 'Please input your 标题!' }]}
-        >
+        <Form.Item label='标题' name='title' rules={[{ required: true, message: '请输入标题' }]}>
           <Input />
+        </Form.Item>
+
+        <Form.Item
+          name='uploader'
+          label='上传文件'
+          rules={[{ required: true, message: '请选择文件' }]}
+        >
+          <Uploader
+            accept='image/gif,image/jpeg,image/jpg,image/png,image/svg'
+            maxSize={5 * 1024 * 1024}
+            upload={beforeRead}
+            maxCount={1}
+            onOversize={() => Toast.info('文件大小不能超过15kb')}
+          />
         </Form.Item>
 
         <Form.Item
           label='简介'
           name='introduction'
-          rules={[{ required: true, message: 'Please input your 作者!' }]}
+          rules={[{ required: true, message: '请输入简介' }]}
         >
           <TextArea rows={4} />
         </Form.Item>

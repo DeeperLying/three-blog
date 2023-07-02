@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:53:51
- * @LastEditTime: 2023-07-02 01:27:28
+ * @LastEditTime: 2023-07-02 12:01:24
  * @LastEditors: Lee
  */
 import React, { useEffect, useState } from 'react'
@@ -49,12 +49,14 @@ const MyBlog = () => {
       <div className={styles.main_articles}>
         {userArticleList?.length ? (
           userArticleList.map((item) => (
-            <Card key={item.id} sx={{ borderRadius: '15px' }}>
-              {/* <CardMedia
+            <Card key={item.id} sx={{ borderRadius: '15px', marginBottom: '20px' }}>
+              {item?.banner && (
+                <CardMedia
                   sx={{ height: 140 }}
-                  image='/static/images/cards/contemplative-reptile.jpg'
-                  title='green iguana'
-                /> */}
+                  image={process.env.REACT_APP_URL + item?.banner}
+                  title='sky 博客'
+                />
+              )}
               <CardContent sx={{ paddingBottom: 0 }}>
                 <Typography gutterBottom variant='h5' component='div'>
                   {item.title}
