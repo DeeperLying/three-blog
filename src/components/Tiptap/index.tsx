@@ -113,7 +113,7 @@ const Tiptap = () => {
         })
         .catch((error) => console.log(error))
       // return包含 url 的一个对象 例如: {url:'https://img.yzcdn.cn/vant/sand.jpg'}
-      return { url: 'http://localhost:8443' + img.url }
+      return { url: process.env.REACT_APP_URL + img.url }
     } catch (error) {
       return { url: `demo_path/${file.name}` }
     }
