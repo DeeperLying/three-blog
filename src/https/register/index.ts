@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-22 15:26:30
- * @LastEditTime: 2023-06-22 15:55:53
+ * @LastEditTime: 2023-07-15 11:17:47
  * @LastEditors: Lee
  */
 import serviceAxios from 'src/lib/http/http'
@@ -26,7 +26,7 @@ const serviceRegisterPhone = (payload: any) => {
   return serviceAxios({
     url: '/register/phone',
     method: 'post',
-    params: payload
+    data: payload
   })
 }
 

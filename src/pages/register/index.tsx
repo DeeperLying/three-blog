@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-11 13:35:05
- * @LastEditTime: 2023-06-22 15:51:44
+ * @LastEditTime: 2023-07-15 11:19:11
  * @LastEditors: Lee
  */
 import React, { useState } from 'react'
@@ -39,7 +39,7 @@ const Register = () => {
 
   const onFinish = (values: any) => {
     setIsLoading(true)
-    serviceRegister({ values })
+    serviceRegister(values)
       .then(({ code }: any) => {
         if (code == 200) {
           Dialog.alert({
@@ -57,7 +57,7 @@ const Register = () => {
 
   const onPhoneFinish = (values: any) => {
     setIsLoading(true)
-    serviceRegisterPhone({ values })
+    serviceRegisterPhone(values)
       .then(({ code }: any) => {
         if (code == 200) {
           Dialog.alert({
