@@ -111,7 +111,9 @@ const Tiptap = () => {
             setBanner(data)
           }
         })
-        .catch((error) => console.log(error))
+        .catch(() => {
+          Toast.fail('上传文件失败')
+        })
       // return包含 url 的一个对象 例如: {url:'https://img.yzcdn.cn/vant/sand.jpg'}
       return { url: process.env.REACT_APP_URL + img.url }
     } catch (error) {
@@ -132,13 +134,14 @@ const Tiptap = () => {
           rules={[{ required: true, message: '请选择文件' }]}
         >
           <Uploader
-            accept='image/gif,image/jpeg,image/jpg,image/png,image/svg'
+            accept='image/*'
             maxSize={5 * 1024 * 1024}
             upload={beforeRead}
             maxCount={1}
             onOversize={() => Toast.info('文件大小不能超过15kb')}
           />
         </Form.Item>
+        <span>不能大于5M</span>
 
         <Form.Item
           label='简介'
