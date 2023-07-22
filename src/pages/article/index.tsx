@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:37:40
- * @LastEditTime: 2023-07-02 12:05:11
+ * @LastEditTime: 2023-07-22 09:23:30
  * @LastEditors: Lee
  */
 import React, { useEffect, useRef, useState } from 'react'
@@ -25,9 +25,13 @@ const Article = (props: any) => {
     if (params?.id) {
       serviceGetArticle({
         id: params.id
-      }).then(({ data }: any) => {
-        setArticle(data)
       })
+        .then(({ data }: any) => {
+          setArticle(data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }, [params])
 

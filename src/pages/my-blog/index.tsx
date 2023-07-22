@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:53:51
- * @LastEditTime: 2023-07-02 12:01:24
+ * @LastEditTime: 2023-07-22 09:20:09
  * @LastEditors: Lee
  */
 import React, { useEffect, useState } from 'react'
@@ -34,7 +34,7 @@ const MyBlog = () => {
     serviceGetUserArticleList({
       pageSize: 20,
       currentPage: 0,
-      userId: userInfo.id
+      userId: userInfo?.id
     })
       .then(({ code, data }: any) => {
         if (code == 200) {
