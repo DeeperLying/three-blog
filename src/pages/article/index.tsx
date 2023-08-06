@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:37:40
- * @LastEditTime: 2023-08-06 10:15:16
+ * @LastEditTime: 2023-08-06 10:34:57
  * @LastEditors: Lee
  */
 import React, { useEffect, useRef, useState } from 'react'
@@ -28,6 +28,8 @@ import Typography from '@mui/material/Typography'
 
 import Comment from './component/Comment'
 import { serviceGetComments } from 'src/https/comment'
+
+import styles from './index.module.scss'
 
 const Article = (props: any) => {
   const referend = useRef<any>()
@@ -66,7 +68,7 @@ const Article = (props: any) => {
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className={styles.main}>
       <div>标题：{article?.title}</div>
       <div>作者：{article?.author}</div>
 
@@ -109,7 +111,7 @@ const Article = (props: any) => {
 
       <Comment callBack={handleServiceGetComments} />
 
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {comments.map((item: any) => (
           <div key={item.id}>
             <ListItem alignItems='flex-start'>

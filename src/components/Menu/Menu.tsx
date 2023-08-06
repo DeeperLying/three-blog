@@ -14,7 +14,7 @@ import { HomeO, Search } from '@react-vant/icons'
 const Menu = () => {
   return (
     <>
-      <div style={{ width: 100, height: 70 }}></div>
+      <div style={{ width: 100, height: 50 }}></div>
       <div className='demo-tabbar'>
         <Tabbar fixed={true}>
           <Tabbar.Item icon={<HomeO />}>
