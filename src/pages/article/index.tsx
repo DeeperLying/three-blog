@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:37:40
- * @LastEditTime: 2023-08-06 17:28:11
+ * @LastEditTime: 2023-08-06 23:35:20
  * @LastEditors: Lee
  */
 import React, { useEffect, useRef, useState } from 'react'
@@ -26,9 +26,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 
 import Comment from './component/Comment'
-import { serviceGetComments, serviceGetCommentChildren } from 'src/https/comment'
+import {
+  serviceGetComments,
+  serviceGetCommentChildren,
+  serviceUpdateCommentLike
+} from 'src/https/comment'
 
 import styles from './index.module.scss'
 
@@ -101,6 +106,20 @@ const Article = (props: any) => {
     ev.stopPropagation()
   }
 
+  const handleCommentLike = (ev: any, id: number) => {
+    console.log(id)
+    serviceUpdateCommentLike({
+      commentId: id
+    })
+      .then(({ code }: any) => {
+        if (code == 200) {
+          handleServiceGetComments()
+        }
+      })
+      .catch((error) => console.log(error))
+    ev.stopPropagation()
+  }
+
   return (
     <div className={styles.main}>
       <div>标题：{article?.title}</div>
@@ -160,7 +179,18 @@ const Article = (props: any) => {
                   <Avatar alt={item.nickname} src={process.env.REACT_APP_URL + item.avatar} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={item.nickname}
+                  primary={
+                    <>
+                      {item.nickname}
+                      <span className={styles.like}>
+                        {item.like ? item.like : null}
+                        <ThumbUpAltIcon
+                          onClick={(ev) => handleCommentLike(ev, item.id)}
+                          sx={{ fontSize: 16, color: '#007fff' }}
+                        />
+                      </span>
+                    </>
+                  }
                   secondary={
                     <React.Fragment>
                       <Typography
@@ -171,12 +201,14 @@ const Article = (props: any) => {
                       ></Typography>
                       {item.content}
                       {item.has_children && !item?.commentChild?.length ? (
-                        <span
-                          className={styles.children}
-                          onClick={(ev) => handleChildReply(ev, item.id)}
-                        >
-                          查看回复 <ArrowForwardIosIcon sx={{ fontSize: 12 }} />
-                        </span>
+                        <>
+                          <span
+                            className={styles.children}
+                            onClick={(ev) => handleChildReply(ev, item.id)}
+                          >
+                            查看回复 <ArrowForwardIosIcon sx={{ fontSize: 12 }} />
+                          </span>
+                        </>
                       ) : null}
 
                       <div>

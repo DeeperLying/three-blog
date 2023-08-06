@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-05 15:24:35
- * @LastEditTime: 2023-08-06 16:31:48
+ * @LastEditTime: 2023-08-06 23:20:41
  * @LastEditors: Lee
  */
 import serviceAxios from 'src/lib/http/http'
@@ -30,4 +30,17 @@ const serviceGetCommentChildren = (payload: any) => {
   })
 }
 
-export { serviceCommentSave, serviceGetComments, serviceGetCommentChildren }
+const serviceUpdateCommentLike = (payload: any) => {
+  return serviceAxios({
+    url: 'comment/like',
+    method: 'post',
+    data: payload
+  })
+}
+
+export {
+  serviceCommentSave,
+  serviceGetComments,
+  serviceGetCommentChildren,
+  serviceUpdateCommentLike
+}
