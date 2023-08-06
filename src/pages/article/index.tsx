@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-06-23 19:37:40
- * @LastEditTime: 2023-08-06 10:34:57
+ * @LastEditTime: 2023-08-06 17:28:11
  * @LastEditors: Lee
  */
 import React, { useEffect, useRef, useState } from 'react'
@@ -25,16 +25,18 @@ import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 
 import Comment from './component/Comment'
-import { serviceGetComments } from 'src/https/comment'
+import { serviceGetComments, serviceGetCommentChildren } from 'src/https/comment'
 
 import styles from './index.module.scss'
 
 const Article = (props: any) => {
-  const referend = useRef<any>()
   const params = useParams()
+  const [openComment, setOpenComment] = useState<boolean>(false)
   const [comments, setComments] = useState<any[]>([])
+  const [parentCommentId, setParentCommentId] = useState<number | undefined>()
 
   const [article, setArticle] = useState<{ [key: string]: any }>({})
 
@@ -60,11 +62,43 @@ const Article = (props: any) => {
     serviceGetComments({ articleId: params.id })
       .then(({ code, data }: any) => {
         if (code == 200) {
-          console.log(data, '=====')
-          setComments(data)
+          const rows = data.map((item: any) => {
+            return {
+              ...item,
+              commentChild: []
+            }
+          })
+          console.log(data, rows, '====')
+
+          setComments(rows)
         }
       })
       .catch((error) => console.log(error))
+  }
+
+  const handleReply = (id: number) => {
+    setParentCommentId(id)
+    setOpenComment(true)
+  }
+
+  const handleChildReply = (ev: any, id: number) => {
+    console.log(id)
+    serviceGetCommentChildren({ commentId: id })
+      .then(({ code, data }: any) => {
+        if (code == 200) {
+          const rows = [...comments]
+          rows.find((item) => {
+            if (item.id == id) {
+              item.commentChild = data
+            }
+          })
+
+          console.log(rows, '[[[[[')
+          setComments(rows)
+        }
+      })
+      .catch((error) => console.log(error))
+    ev.stopPropagation()
   }
 
   return (
@@ -109,33 +143,54 @@ const Article = (props: any) => {
         }}
       />
 
-      <Comment callBack={handleServiceGetComments} />
+      <Comment
+        callBack={handleServiceGetComments}
+        openComment={openComment}
+        setOpenComment={setOpenComment}
+        parentCommentId={parentCommentId}
+        setParentCommentId={setParentCommentId}
+      />
 
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-        {comments.map((item: any) => (
-          <div key={item.id}>
-            <ListItem alignItems='flex-start'>
-              <ListItemAvatar>
-                <Avatar alt={item.nickname} src={process.env.REACT_APP_URL + item.avatar} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={item.nickname}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component='span'
-                      variant='body2'
-                      color='text.primary'
-                    ></Typography>
-                    {item.content}
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-            <Divider variant='inset' component='li' />
-          </div>
-        ))}
+        {comments &&
+          comments.map((item: any) => (
+            <div key={item.id}>
+              <ListItem alignItems='flex-start' onClick={() => handleReply(item.id)}>
+                <ListItemAvatar>
+                  <Avatar alt={item.nickname} src={process.env.REACT_APP_URL + item.avatar} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.nickname}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component='span'
+                        variant='body2'
+                        color='text.primary'
+                      ></Typography>
+                      {item.content}
+                      {item.has_children && !item?.commentChild?.length ? (
+                        <span
+                          className={styles.children}
+                          onClick={(ev) => handleChildReply(ev, item.id)}
+                        >
+                          查看回复 <ArrowForwardIosIcon sx={{ fontSize: 12 }} />
+                        </span>
+                      ) : null}
+
+                      <div>
+                        {item?.commentChild?.map((child: any) => (
+                          <div key={child.id}>{child.content}</div>
+                        ))}
+                      </div>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant='inset' component='li' />
+            </div>
+          ))}
       </List>
     </div>
   )

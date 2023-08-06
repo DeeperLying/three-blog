@@ -1,27 +1,36 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-05 14:53:48
- * @LastEditTime: 2023-08-06 10:21:20
+ * @LastEditTime: 2023-08-06 15:57:19
  * @LastEditors: Lee
  */
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 import { getUserInfo } from 'src/lib/cookie/cookie'
 import { useParams } from 'react-router-dom'
-import { serviceCommentSave, serviceGetComments } from 'src/https/comment'
+import { serviceCommentSave } from 'src/https/comment'
 
 import styles from '../../index.module.scss'
 
 type propsType = {
   callBack: () => void
+  setOpenComment: Dispatch<SetStateAction<boolean>>
+  openComment: boolean
+  parentCommentId: number | undefined
+  setParentCommentId: Dispatch<SetStateAction<number | undefined>>
 }
 
-const Comment = ({ callBack }: propsType) => {
+const Comment = ({
+  callBack,
+  openComment,
+  setOpenComment,
+  parentCommentId,
+  setParentCommentId
+}: propsType) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(false)
   const [content, setContent] = useState<string | undefined>()
   const userInfo = getUserInfo()
   const querys = useParams()
@@ -34,19 +43,22 @@ const Comment = ({ callBack }: propsType) => {
       nickname: userInfo.username,
       avatar: userInfo.headimgurl,
       content,
-      Level: '0'
+      Level: parentCommentId ? 1 : 0,
+      parent_comment_id: parentCommentId
     }
 
     serviceCommentSave(data)
       .then(({ code }: any) => {
         if (code == 200) {
-          //
           callBack()
         }
       })
       .catch((error) => console.log(error))
-      .finally(() => setLoading(false))
-    console.log(querys, userInfo, '======', data)
+      .finally(() => {
+        setLoading(false)
+        setParentCommentId(undefined)
+        setOpenComment(false)
+      })
   }
 
   return (
@@ -57,12 +69,19 @@ const Comment = ({ callBack }: propsType) => {
             background: '#fff'
           }}
           size='large'
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenComment(true)}
         >
           评论
         </Button>
       </div>
-      <Drawer anchor='bottom' open={open} onClose={() => setOpen(false)}>
+      <Drawer
+        anchor='bottom'
+        open={openComment}
+        onClose={() => {
+          setParentCommentId(undefined)
+          setOpenComment(false)
+        }}
+      >
         <div className={styles.commentDrawer}>
           <TextField
             label='美言赞语，可以让作者更快更新额'
@@ -74,7 +93,7 @@ const Comment = ({ callBack }: propsType) => {
             onChange={(e) => setContent(e.target.value)}
           />
           <Button
-            onClick={handleServiceCommentSave}
+            onClick={() => handleServiceCommentSave()}
             variant='contained'
             size='large'
             sx={{ marginTop: '10px', float: 'right' }}
