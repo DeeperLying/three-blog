@@ -1,13 +1,13 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-19 12:38:28
- * @LastEditTime: 2023-08-19 16:47:57
+ * @LastEditTime: 2023-08-19 17:06:33
  * @LastEditors: Lee
  */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-import { getMessaging, getToken } from 'firebase/messaging'
+import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -58,3 +58,8 @@ function requestPermission() {
 }
 
 requestPermission()
+
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload)
+  // ...
+})
