@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-19 12:38:28
- * @LastEditTime: 2023-08-20 02:50:43
+ * @LastEditTime: 2023-08-20 03:11:10
  * @LastEditors: Lee
  */
 // Import the functions you need from the SDKs you need
@@ -57,7 +57,7 @@ const useInitFirebaseHook = () => {
     }
 
     function requestPermission() {
-      console.log('浏览器notification auth')
+      console.log('浏览器notification auth1')
       if ('Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
         Notification.requestPermission().then((permission) => {
           if (permission === 'granted') {
