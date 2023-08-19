@@ -1,15 +1,19 @@
 /*
  * @Author: Lee
  * @Date: 2023-05-28 12:40:58
- * @LastEditTime: 2023-06-22 16:36:46
+ * @LastEditTime: 2023-08-19 13:02:49
  * @LastEditors: Lee
  */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
+import '/src/lib/firebase/index.js'
+import './firebase-messaging-sw.js'
+
+import App from './App'
+
+import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
