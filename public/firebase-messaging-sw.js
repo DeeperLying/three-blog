@@ -20,3 +20,14 @@ firebase.initializeApp({
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
+const messaging = firebase.messaging()
+messaging.setBackgroundMessageHandler(function(payload) {
+  console.log('后端消息', payload)
+  const title = 'message title'
+  const options = {
+    body: 'body ~~~~~',
+    icon: 'https://blog.xiaomaibu.pro/xiaomaibu.png'
+  }
+
+  return self.ServiceWorkerRegistration.showNotification(title, options)
+})

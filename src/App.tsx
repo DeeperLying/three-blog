@@ -1,10 +1,10 @@
 /*
  * @Author: Lee
  * @Date: 2022-12-03 20:59:01
- * @LastEditTime: 2023-07-02 23:02:36
+ * @LastEditTime: 2023-08-20 02:31:10
  * @LastEditors: Lee
  */
-import React, { ReactElement, Suspense } from 'react'
+import React, { ReactElement, Suspense, useEffect } from 'react'
 import { useRoutes } from 'react-router'
 // import wx from 'weixin-js-sdk'
 
@@ -18,6 +18,7 @@ import '@fontsource/roboto/700.css'
 import './App.css'
 
 import RouterConfig from 'src/lib/router/routers'
+import useInitFirebaseHook from './lib/firebase'
 // import { getWxUserAuthCode } from './utils/wx_auth'
 
 function App(): ReactElement {
@@ -33,6 +34,8 @@ function App(): ReactElement {
   //     })
   //   }
   // }, [])
+
+  useInitFirebaseHook()
 
   const element = useRoutes(RouterConfig)
   return (
