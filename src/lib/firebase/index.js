@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-19 12:38:28
- * @LastEditTime: 2023-08-19 16:15:38
+ * @LastEditTime: 2023-08-19 16:39:31
  * @LastEditors: Lee
  */
 // Import the functions you need from the SDKs you need
@@ -32,3 +32,17 @@ getToken(messaging, {
   vapidKey:
     'BKuGA5JNGHq0_1HzGhzp97AKXwMHQiVuj6YakF2Fz5kTT3ztN3IzfXcovEz1clkxo257VY0ZAHQoycrM5_ljJFM'
 })
+  .then((currentToken) => {
+    if (currentToken) {
+      // Send the token to your server and update the UI if necessary
+      // ...
+    } else {
+      // Show permission request UI
+      console.log('No registration token available. Request permission to generate one.')
+      // ...
+    }
+  })
+  .catch((err) => {
+    console.log('An error occurred while retrieving token. ', err)
+    // ...
+  })
