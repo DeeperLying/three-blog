@@ -1,13 +1,13 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-19 12:38:28
- * @LastEditTime: 2023-08-19 17:55:13
+ * @LastEditTime: 2023-08-20 00:58:26
  * @LastEditors: Lee
  */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-import { getMessaging, getToken, onMessage } from 'firebase/messaging'
+import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,42 +24,51 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const analytics = getAnalytics(app)
-const messaging = getMessaging(app)
+let messaging = null
+if (isSupported()) {
+  const app = initializeApp(firebaseConfig)
+  const analytics = getAnalytics(app)
+  messaging = getMessaging(app)
+}
 
-getToken(messaging, {
-  vapidKey:
-    'BKuGA5JNGHq0_1HzGhzp97AKXwMHQiVuj6YakF2Fz5kTT3ztN3IzfXcovEz1clkxo257VY0ZAHQoycrM5_ljJFM'
-})
-  .then((currentToken) => {
-    if (currentToken) {
-      console.log(currentToken, 'service worker')
-      // Send the token to your server and update the UI if necessary
-      // ...
-    } else {
-      // Show permission request UI
-      console.log('No registration token available. Request permission to generate one.')
-      // ...
-    }
+if (isSupported()) {
+  getToken(messaging, {
+    vapidKey:
+      'BKuGA5JNGHq0_1HzGhzp97AKXwMHQiVuj6YakF2Fz5kTT3ztN3IzfXcovEz1clkxo257VY0ZAHQoycrM5_ljJFM'
   })
-  .catch((err) => {
-    console.log('An error occurred while retrieving token. ', err)
-    // ...
-  })
+    .then((currentToken) => {
+      if (currentToken) {
+        console.log(currentToken, 'service worker')
+        // Send the token to your server and update the UI if necessary
+        // ...
+      } else {
+        // Show permission request UI
+        console.log('No registration token available. Request permission to generate one.')
+        // ...
+      }
+    })
+    .catch((err) => {
+      console.log('An error occurred while retrieving token. ', err)
+      // ...
+    })
+}
 
 function requestPermission() {
-  console.log('Requesting permission...')
-  Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
-      console.log('Notification permission granted.')
-    }
-  })
+  console.log('浏览器notification auth')
+  if ('Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.')
+      }
+    })
+  }
 }
 
 requestPermission()
 
-onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload)
-  // ...
-})
+if (isSupported()) {
+  onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload)
+    // ...
+  })
+}
