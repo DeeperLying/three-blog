@@ -1,7 +1,7 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-19 12:38:28
- * @LastEditTime: 2023-08-19 16:39:31
+ * @LastEditTime: 2023-08-19 16:47:57
  * @LastEditors: Lee
  */
 // Import the functions you need from the SDKs you need
@@ -34,6 +34,7 @@ getToken(messaging, {
 })
   .then((currentToken) => {
     if (currentToken) {
+      console.log(currentToken, 'service worker')
       // Send the token to your server and update the UI if necessary
       // ...
     } else {
@@ -46,3 +47,14 @@ getToken(messaging, {
     console.log('An error occurred while retrieving token. ', err)
     // ...
   })
+
+function requestPermission() {
+  console.log('Requesting permission...')
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Notification permission granted.')
+    }
+  })
+}
+
+requestPermission()
