@@ -1,14 +1,16 @@
 /*
  * @Author: Lee
  * @Date: 2023-08-19 12:38:28
- * @LastEditTime: 2023-08-20 03:11:10
+ * @LastEditTime: 2023-08-27 01:21:54
  * @LastEditors: Lee
  */
 // Import the functions you need from the SDKs you need
+import { useEffect } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging'
-import { useEffect } from 'react'
+import { serviceFetchSaveToken } from 'src/https/firebase'
+import { getUserInfo } from '../cookie/cookie'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,6 +27,7 @@ const firebaseConfig = {
 }
 
 const useInitFirebaseHook = () => {
+  const userInfo = getUserInfo()
   // Initialize Firebase
   useEffect(() => {
     let messaging = null
@@ -42,6 +45,17 @@ const useInitFirebaseHook = () => {
         .then((currentToken) => {
           if (currentToken) {
             console.log(currentToken, 'service worker')
+            if (userInfo && userInfo.id) {
+              try {
+                serviceFetchSaveToken({
+                  firebaseToken: currentToken,
+                  userId: userInfo.id
+                })
+              } catch (error) {
+                console.log(error)
+              }
+            }
+
             // Send the token to your server and update the UI if necessary
             // ...
           } else {
